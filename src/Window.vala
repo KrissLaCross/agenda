@@ -114,7 +114,15 @@ namespace Agenda {
 
             var tasks = backend.load_tasks ();
             foreach (Task task in tasks) {
-                task_list.append_task (task);
+                if (task.complete == false) {
+                    task_list.append_task (task);
+                }
+            }
+            
+            foreach (Task task in tasks) {
+                if (task.complete == true) {
+                    task_list.append_task (task);
+                }
             }
 
             var history = backend.load_history ();
@@ -129,7 +137,7 @@ namespace Agenda {
         }
 
         private void setup_ui () {
-            this.set_title ("Agenda");
+            this.set_title ("I'M A HACKER MAN");
 
             task_entry.name = "TaskEntry";
             task_entry.get_style_context ().add_class ("task-entry");
@@ -229,6 +237,8 @@ namespace Agenda {
 
             task_list.append_task (task);
             history_list.add_item (task.text);
+            // When adding a new task rearrange the tasks
+            task_list.sort_tasks ();
             task_entry.text = "";
         }
 

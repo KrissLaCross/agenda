@@ -88,6 +88,28 @@ namespace Agenda {
 
             list_changed ();
         }
+        
+        public void sort_tasks () {
+            Gtk.TreeIter iter;
+            bool valid = get_iter_first (out iter);
+            Task[] tasks = {};
+
+            while (valid) {
+                Task task = get_task (iter);
+                if (task.complete) {
+                    tasks += task;
+                    remove (ref iter);
+                    continue;
+                }
+                valid = iter_next (ref iter);
+            }
+
+            int i;
+            for (i = 0; i < tasks.length; i++) {
+                append_task (tasks[i]);
+            }
+            list_changed ();
+        }
 
         public void clear_undo () {
             undo_list = new TaskListHistory ();
